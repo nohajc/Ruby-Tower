@@ -10,5 +10,12 @@ require "ruby_tower"
 # require "pry"
 # Pry.start
 
+require "ruby_tower/window"
+
+Thread.start do
+	@win = RubyTower::RTWindow.new
+	@win.show
+end
+
 require "irb"
 IRB.start
