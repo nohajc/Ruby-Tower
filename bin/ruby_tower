@@ -2,4 +2,5 @@
 
 require "ruby_tower/window"
 
-RubyTower::RTWindow.new
+win = RubyTower::RTWindow.new
+win.show
