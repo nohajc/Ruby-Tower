@@ -12,10 +12,5 @@ require "ruby_tower"
 
 require "ruby_tower/window"
 
-Thread.start do
-	@win = RubyTower::RTWindow.new
-	@win.show
-end
-
-require "irb"
-IRB.start
+@win = RubyTower::RTWindow.new
+@win.show
