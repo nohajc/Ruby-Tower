@@ -4,7 +4,7 @@ module RubyTower
 	class RTWindow < Gosu::Window
 		def initialize
 			super 1024, 768
-			caption = "Ruby Tower"
+			self.caption = "Ruby Tower"
 		end
 
 		def update
