@@ -17,12 +17,12 @@ module RubyTower
 			@player = RTPlayer.new(@win)
 
 			@min_seg_num = 4
-			@max_seg_num = 10
+			@max_seg_num = 12
 			@prng = Random.new
 			init_platforms
 
-			@leftWall = RTWall.new(@win, 0, 0, @wallWidth, 768, :cwall)
-			@rightWall = RTWall.new(@win, 928, 0, @wallWidth, 768, :cwall)
+			@leftWall = RTWall.new(@win, 0, 0, @wallWidth, 768, :cwall, "media/background/left.png")
+			@rightWall = RTWall.new(@win, 928, 0, @wallWidth, 768, :cwall, "media/background/right.png")
 
 			@win.space.add_collision_func(:cplayer, :cplatform) do |player_shape, platform_shape|
 				if player_shape.body.v.y > 0 && player_shape.body.p.y <= platform_shape.body.p.y - @player.height + 5
@@ -33,6 +33,10 @@ module RubyTower
 					player_shape.body.apply_impulse(vec(0, -player_shape.body.v.y * @player.weight), vec(0, 0))
 					player_shape.body.apply_force(vec(0, -GRAVITY * 10), vec(0, 0))
 					@player.onTheGround = true
+
+					if Gosu::button_down?(Gosu::KbSpace) || Gosu::button_down?(Gosu::KbUp)
+						@player.jump
+					end
 				end
 			end
 
@@ -45,6 +49,8 @@ module RubyTower
 				end
 				player_shape.body.v.x = -player_shape.body.v.x # bounce
 			end
+
+			@background = Gosu::Image.new("media/background/back.png")
 		end
 
 		def rand_platform(floor_num, pl_style)
@@ -62,7 +68,7 @@ module RubyTower
 			@platforms << RTPlatform.new(@win, @wallWidth, HEIGHT - PLAT_HEIGHT, WIDTH - 2 * @wallWidth, PLAT_HEIGHT, :cplatform, @wplatform_style)
 			#@platforms << RTPlatform.new(@win, 300, HEIGHT - 128, 128, 24, :cplatform)
 			#@platforms << RTPlatform.new(@win, 500, HEIGHT - 308, 240, 24, :cplatform)
-			(1..7).each do |i|
+			(1..500).each do |i|
 				@platforms << rand_platform(i, @platform_style)
 			end
 		end
@@ -100,10 +106,18 @@ module RubyTower
 
 				@win.space.step(@win.dt)
 				@player.shape.body.reset_forces
+
+				#puts "player y = #{@player.shape.body.p.y}"
+				camera_y = HEIGHT / 2 - @player.shape.body.p.y
+
+				@win.camera_y = camera_y if camera_y > @win.camera_y
+				@leftWall.update
+				@rightWall.update
 			end
 		end
 
 		def draw
+			@background.draw(0, 0, ZOrder::Background)
 			@player.draw
 			@platforms.each{|p| p.draw}
 			@leftWall.draw

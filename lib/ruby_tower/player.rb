@@ -43,7 +43,7 @@ module RubyTower
 		def jump
 			puts "JUMP"
 			@onTheGround = false
-			@shape.body.apply_impulse(vec(0, -1500 - 9 * @shape.body.v.x.abs), vec(0, 0))
+			@shape.body.apply_impulse(vec(0, -1200 - 10 * @shape.body.v.x.abs), vec(0, 0))
 			@shape.body.apply_force(vec(0, GRAVITY * 10), vec(0, 0))
 		end
 
@@ -63,20 +63,20 @@ module RubyTower
 
 		def stopLeft
 			#puts "STOP LEFT"
-			@shape.body.apply_impulse(vec(2, 0), vec(0, 0))
+			@shape.body.apply_impulse(vec(2.7, 0), vec(0, 0))
 		end
 
 		def stopRight
 			#puts "STOP RIGHT"
-			@shape.body.apply_impulse(vec(-2, 0), vec(0, 0))
+			@shape.body.apply_impulse(vec(-2.7, 0), vec(0, 0))
 		end
 
 		def draw
 			#Gosu::draw_rect(@shape.body.p.x, @shape.body.p.y, @width, @height, Gosu::Color.new(0xFFFFFFFF), ZOrder::Player)
 			if @face == :right
-				@image.draw(@shape.body.p.x, @shape.body.p.y, ZOrder::Player, 1.0, 1.0)
+				@image.draw(@shape.body.p.x, @shape.body.p.y + @win.camera_y, ZOrder::Player, 1.0, 1.0)
 			else
-				@image.draw(@shape.body.p.x + @width, @shape.body.p.y, ZOrder::Player, -1.0, 1.0)
+				@image.draw(@shape.body.p.x + @width, @shape.body.p.y + @win.camera_y, ZOrder::Player, -1.0, 1.0)
 			end
 		end
 	end

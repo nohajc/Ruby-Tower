@@ -8,7 +8,7 @@ module RubyTower
 	WIDTH = 1024
 	HEIGHT = 768
 	SUBSTEPS = 10
-	GRAVITY = 50
+	GRAVITY = 40
 	PLAT_SEGM_WIDTH = 32
 	PLAT_HEIGHT = 24
 	FLOOR_HEIGHT = 100
@@ -19,7 +19,7 @@ module RubyTower
 
 	class RTWindow < Gosu::Window
 		include RubyTower
-		attr_accessor :space, :dt
+		attr_accessor :space, :dt, :camera_y
 
 		def initialize
 			super WIDTH, HEIGHT
@@ -30,6 +30,8 @@ module RubyTower
 			@space = CP::Space.new
 			@space.damping = 0.8
 			@space.gravity = vec(0, GRAVITY)
+
+			@camera_y = 0
 
 			@contents = {
 				:menu => RTMenu.new(self),
