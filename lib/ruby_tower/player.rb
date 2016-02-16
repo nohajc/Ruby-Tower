@@ -48,6 +48,16 @@ module RubyTower
 			@shape.body.apply_impulse(vec(3.5, 0), vec(0, 0))
 		end
 
+		def stopLeft
+			#puts "STOP LEFT"
+			@shape.body.apply_impulse(vec(2, 0), vec(0, 0))
+		end
+
+		def stopRight
+			#puts "STOP RIGHT"
+			@shape.body.apply_impulse(vec(-2, 0), vec(0, 0))
+		end
+
 		def draw
 			Gosu::draw_rect(@shape.body.p.x, @shape.body.p.y, @width, @height, Gosu::Color.new(0xFFFFFFFF), ZOrder::Player)
 		end

@@ -36,7 +36,7 @@ module RubyTower
 				else # left wall
 					player_shape.body.p.x = wall_shape.body.p.x + @wallWidth
 				end
-				player_shape.body.v.x = -player_shape.body.v.x
+				player_shape.body.v.x = -player_shape.body.v.x # bounce
 			end
 		end
 
@@ -61,10 +61,15 @@ module RubyTower
 			SUBSTEPS.times do
 				if Gosu::button_down? Gosu::KbLeft
 					@player.goLeft
+				elsif @player.shape.body.v.x < -0.1
+					@player.stopLeft
 				end
+
 
 				if Gosu::button_down? Gosu::KbRight
 					@player.goRight
+				elsif @player.shape.body.v.x > 0.1
+					@player.stopRight
 				end
 
 				if @player.shape.body.v.y > 0
