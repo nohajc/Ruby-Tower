@@ -6,15 +6,25 @@ module RubyTower
 			@win = win
 			@width = w
 			@height = h
-			body = CP::Body.new(1.0, 1.0)
+			@weight = 1000000
+			@ctype = ctype
+
+			body = CP::Body.new(@weight, Float::INFINITY)
 			hull = [vec(-w / 2, -h / 2), vec(-w / 2, h / 2), vec(w / 2, h / 2), vec(w / 2, -h / 2)]
 			@shape = CP::Shape::Poly.new(body, hull, vec(w / 2, h / 2))
+			#@shape = CP::Shape::Poly.new(body, hull, vec(0, 0))
 			@shape.collision_type = ctype
+
+			#if ctype == :cplatform
+			#	hull = [vec(-16, -32), vec(-16, 32), vec(16, 32), vec(16, -32)]
+			#	@edgeLeftShape = CP::Shape::Poly.new(body, hull, vec(16, 32))
+			#end
+
 			@win.space.add_body(body)
 			@win.space.add_shape(@shape)
 			warp(vec(x, y))
 			puts "t = #{@shape.bb.t}, b = #{@shape.bb.b}, l = #{@shape.bb.l}, r = #{@shape.bb.r}"
-			@shape.body.apply_force(vec(0, -GRAVITY), vec(0, 0))
+			@shape.body.apply_force(vec(0, -GRAVITY * @weight), vec(0, 0))
 		end
 
 		def warp(vect)
