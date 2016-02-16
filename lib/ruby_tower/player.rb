@@ -1,7 +1,7 @@
 module RubyTower
 	class RTPlayer
 		include RubyTower
-		attr_accessor :shape, :onTheGround, :impulse
+		attr_accessor :shape, :onTheGround, :impulse, :sound_impact
 		attr_reader :width, :height, :weight
 
 		def initialize(win)
@@ -22,13 +22,18 @@ module RubyTower
 			@win.space.add_body(body)
 			@win.space.add_shape(@shape)
 			#@image = Gosu::Image.new(win, Circle.new(36), false)
-			@onTheGround = false
-			warp(vec(512 - @width / 2, HEIGHT - PLAT_HEIGHT - @height))
+			@onTheGround = true
+			warp(vec(512 - @width / 2, HEIGHT - PLAT_HEIGHT - @height + 4))
 			#puts "t = #{@shape.bb.t}, b = #{@shape.bb.b}, l = #{@shape.bb.l}, r = #{@shape.bb.r}"
 			@image = Gosu::Image.new("media/character/cube_cute.png")
 			@face = :right
 
 			@impulse = 3.5
+			init_sounds
+		end
+
+		def init_sounds
+			@sound_impact = Gosu::Sample.new("media/character/impact.wav")
 		end
 
 		def warp(vect)
@@ -43,14 +48,14 @@ module RubyTower
 		end
 
 		def goLeft
-			puts "LEFT #{@impulse}"
+			#puts "LEFT #{@impulse}"
 			@shape.body.apply_impulse(vec(-@impulse, 0), vec(0, 0))
 			@impulse += 0.004
 			@face = :left
 		end
 
 		def goRight
-			puts "RIGHT #{@impulse}"
+			#puts "RIGHT #{@impulse}"
 			@shape.body.apply_impulse(vec(@impulse, 0), vec(0, 0))
 			@impulse += 0.004
 			@face = :right

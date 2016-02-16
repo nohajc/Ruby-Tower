@@ -21,12 +21,13 @@ module RubyTower
 			@prng = Random.new
 			init_platforms
 
-			@leftWall = RTWall.new(@win, 0, 0, @wallWidth, 744, :cwall)
-			@rightWall = RTWall.new(@win, 928, 0, @wallWidth, 744, :cwall)
+			@leftWall = RTWall.new(@win, 0, 0, @wallWidth, 768, :cwall)
+			@rightWall = RTWall.new(@win, 928, 0, @wallWidth, 768, :cwall)
 
 			@win.space.add_collision_func(:cplayer, :cplatform) do |player_shape, platform_shape|
 				if player_shape.body.v.y > 0 && player_shape.body.p.y <= platform_shape.body.p.y - @player.height + 5
 					#puts "DOWNWARD COLLISION!"
+					@player.sound_impact.play if @player.onTheGround == false
 					player_shape.body.p.y = platform_shape.body.p.y - @player.height
 					player_shape.body.reset_forces
 					player_shape.body.apply_impulse(vec(0, -player_shape.body.v.y * @player.weight), vec(0, 0))
@@ -56,8 +57,9 @@ module RubyTower
 
 		def init_platforms
 			@platform_style = RTPlatformStyle.new
+			@wplatform_style = RTPlatformStyle.new("blue", true)
 			@platforms = []
-			@platforms << RTPlatform.new(@win, 0, HEIGHT - 24, 1024, 24, :cplatform, @platform_style)
+			@platforms << RTPlatform.new(@win, @wallWidth, HEIGHT - PLAT_HEIGHT, WIDTH - 2 * @wallWidth, PLAT_HEIGHT, :cplatform, @wplatform_style)
 			#@platforms << RTPlatform.new(@win, 300, HEIGHT - 128, 128, 24, :cplatform)
 			#@platforms << RTPlatform.new(@win, 500, HEIGHT - 308, 240, 24, :cplatform)
 			(1..7).each do |i|
@@ -92,7 +94,7 @@ module RubyTower
 					@player.stopRight
 				end
 
-				if @player.shape.body.v.y > 0
+				if @player.shape.body.v.y > 5
 					@player.onTheGround = false
 				end
 

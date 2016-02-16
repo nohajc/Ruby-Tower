@@ -28,7 +28,7 @@ module RubyTower
 
 		def draw
 			#Gosu::draw_rect(@shape.body.p.x, @shape.body.p.y, @width, @height, Gosu::Color.new(0xFFFFBC00), ZOrder::Platforms)
-			@pl_style.draw(@shape.body.p.x - 3, @shape.body.p.y - 4, @width / PLAT_SEGM_WIDTH - 2)
+			@pl_style.draw(@shape.body.p.x - 3, @shape.body.p.y - 4, @width / PLAT_SEGM_WIDTH)
 		end
 	end
 end
