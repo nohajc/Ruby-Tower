@@ -1,5 +1,7 @@
 require "ruby_tower/player"
+require "ruby_tower/wall"
 require "ruby_tower/platform"
+require "ruby_tower/platformstyle"
 
 module RubyTower
 	def vec(x, y)
@@ -11,12 +13,16 @@ module RubyTower
 
 		def initialize(win)
 			@win = win
-			@wallWidth = 100
+			@wallWidth = 96
 			@player = RTPlayer.new(@win)
+
+			@min_seg_num = 4
+			@max_seg_num = 10
+			@prng = Random.new
 			init_platforms
 
-			@leftWall = RTPlatform.new(@win, 0, 0, @wallWidth, 736, :cwall)
-			@rightWall = RTPlatform.new(@win, 924, 0, @wallWidth, 736, :cwall)
+			@leftWall = RTWall.new(@win, 0, 0, @wallWidth, 744, :cwall)
+			@rightWall = RTWall.new(@win, 928, 0, @wallWidth, 744, :cwall)
 
 			@win.space.add_collision_func(:cplayer, :cplatform) do |player_shape, platform_shape|
 				if player_shape.body.v.y > 0 && player_shape.body.p.y <= platform_shape.body.p.y - @player.height + 5
@@ -40,10 +46,23 @@ module RubyTower
 			end
 		end
 
+		def rand_platform(floor_num, pl_style)
+			x = @prng.rand((@wallWidth / PLAT_SEGM_WIDTH)..((WIDTH - @wallWidth) / PLAT_SEGM_WIDTH - @min_seg_num)) * PLAT_SEGM_WIDTH
+			y = HEIGHT - floor_num * FLOOR_HEIGHT
+			w = [@prng.rand(@min_seg_num..@max_seg_num) * PLAT_SEGM_WIDTH, (WIDTH - @wallWidth - x)].min
+			h = PLAT_HEIGHT
+			RTPlatform.new(@win, x, y, w, h, :cplatform, pl_style)
+		end
+
 		def init_platforms
-			@platforms = [RTPlatform.new(@win, 0, HEIGHT - 32, 1024, 32, :cplatform)]
-			@platforms << RTPlatform.new(@win, 300, HEIGHT - 128, 128, 24, :cplatform)
-			@platforms << RTPlatform.new(@win, 500, HEIGHT - 308, 240, 24, :cplatform)
+			@platform_style = RTPlatformStyle.new
+			@platforms = []
+			@platforms << RTPlatform.new(@win, 0, HEIGHT - 24, 1024, 24, :cplatform, @platform_style)
+			#@platforms << RTPlatform.new(@win, 300, HEIGHT - 128, 128, 24, :cplatform)
+			#@platforms << RTPlatform.new(@win, 500, HEIGHT - 308, 240, 24, :cplatform)
+			(1..7).each do |i|
+				@platforms << rand_platform(i, @platform_style)
+			end
 		end
 
 		def button_down(id)
@@ -62,13 +81,14 @@ module RubyTower
 				if Gosu::button_down? Gosu::KbLeft
 					@player.goLeft
 				elsif @player.shape.body.v.x < -0.1
+					@player.impulse = 3.5
 					@player.stopLeft
 				end
-
 
 				if Gosu::button_down? Gosu::KbRight
 					@player.goRight
 				elsif @player.shape.body.v.x > 0.1
+					@player.impulse = 3.5
 					@player.stopRight
 				end
 

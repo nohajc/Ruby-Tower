@@ -9,6 +9,9 @@ module RubyTower
 	HEIGHT = 768
 	SUBSTEPS = 10
 	GRAVITY = 50
+	PLAT_SEGM_WIDTH = 32
+	PLAT_HEIGHT = 24
+	FLOOR_HEIGHT = 100
 
 	module ZOrder
 		Background, Platforms, Player = *0..2

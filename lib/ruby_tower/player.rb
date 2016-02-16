@@ -1,13 +1,13 @@
 module RubyTower
 	class RTPlayer
 		include RubyTower
-		attr_accessor :shape, :onTheGround
+		attr_accessor :shape, :onTheGround, :impulse
 		attr_reader :width, :height, :weight
 
 		def initialize(win)
 			@win = win
 			@width = 32
-			@height = 64
+			@height = 32
 			@weight = 10.0
 			body = CP::Body.new(@weight, Float::INFINITY)
 			hull = [
@@ -23,8 +23,12 @@ module RubyTower
 			@win.space.add_shape(@shape)
 			#@image = Gosu::Image.new(win, Circle.new(36), false)
 			@onTheGround = false
-			warp(vec(512, 384))
-			puts "t = #{@shape.bb.t}, b = #{@shape.bb.b}, l = #{@shape.bb.l}, r = #{@shape.bb.r}"
+			warp(vec(512 - @width / 2, HEIGHT - PLAT_HEIGHT - @height))
+			#puts "t = #{@shape.bb.t}, b = #{@shape.bb.b}, l = #{@shape.bb.l}, r = #{@shape.bb.r}"
+			@image = Gosu::Image.new("media/character/cube_cute.png")
+			@face = :right
+
+			@impulse = 3.5
 		end
 
 		def warp(vect)
@@ -34,18 +38,22 @@ module RubyTower
 		def jump
 			puts "JUMP"
 			@onTheGround = false
-			@shape.body.apply_impulse(vec(0, -1500 - 10 * @shape.body.v.x.abs), vec(0, 0))
+			@shape.body.apply_impulse(vec(0, -1500 - 9 * @shape.body.v.x.abs), vec(0, 0))
 			@shape.body.apply_force(vec(0, GRAVITY * 10), vec(0, 0))
 		end
 
 		def goLeft
-			#puts "LEFT"
-			@shape.body.apply_impulse(vec(-3.5, 0), vec(0, 0))
+			puts "LEFT #{@impulse}"
+			@shape.body.apply_impulse(vec(-@impulse, 0), vec(0, 0))
+			@impulse += 0.004
+			@face = :left
 		end
 
 		def goRight
-			#puts "RIGHT"
-			@shape.body.apply_impulse(vec(3.5, 0), vec(0, 0))
+			puts "RIGHT #{@impulse}"
+			@shape.body.apply_impulse(vec(@impulse, 0), vec(0, 0))
+			@impulse += 0.004
+			@face = :right
 		end
 
 		def stopLeft
@@ -59,7 +67,12 @@ module RubyTower
 		end
 
 		def draw
-			Gosu::draw_rect(@shape.body.p.x, @shape.body.p.y, @width, @height, Gosu::Color.new(0xFFFFFFFF), ZOrder::Player)
+			#Gosu::draw_rect(@shape.body.p.x, @shape.body.p.y, @width, @height, Gosu::Color.new(0xFFFFFFFF), ZOrder::Player)
+			if @face == :right
+				@image.draw(@shape.body.p.x, @shape.body.p.y, ZOrder::Player, 1.0, 1.0)
+			else
+				@image.draw(@shape.body.p.x + @width, @shape.body.p.y, ZOrder::Player, -1.0, 1.0)
+			end
 		end
 	end
 end

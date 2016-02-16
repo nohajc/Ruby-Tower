@@ -14,12 +14,12 @@ class RTPlatformStyle
 		# size - number of center blocks of the platform
 		# width of the platform is always (64 + size * 32)
 		def draw( x, y, size = 0)
-			@left.draw(x, y, 0)
+			@left.draw(x, y, ZOrder::Platforms)
 
 			(0..size-1).each do |i|
-				@center.draw(x + @left.width + i*@center.width, y, 0)
+				@center.draw(x + @left.width + i*@center.width, y, ZOrder::Platforms)
 			end unless size == 0
-			@right.draw(x + @left.width + size*@center.width, y, 0 )
+			@right.draw(x + @left.width + size*@center.width, y, ZOrder::Platforms)
 		end
 	end
 

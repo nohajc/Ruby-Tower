@@ -8,7 +8,6 @@ module RubyTower
 			@height = h
 			@weight = 1000000
 			@ctype = ctype
-			@pl_style = pl_style
 
 			body = CP::Body.new(@weight, Float::INFINITY)
 			hull = [vec(-w / 2, -h / 2), vec(-w / 2, h / 2), vec(w / 2, h / 2), vec(w / 2, -h / 2)]
