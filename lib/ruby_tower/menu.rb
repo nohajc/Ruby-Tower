@@ -71,8 +71,6 @@ module RubyTower
 				:game
 			when 1 
 				:leaderboard
-			when 2 
-				@win.close
 			end
 		end
 
@@ -89,7 +87,11 @@ module RubyTower
 				@active = mod(@active + 1)
 				@items[@active].setActive
 			when Gosu::KbReturn
+				if @active == 2
+					@win.close
+				else
 				@win.switchTo(selectActive)
+				end
 			when Gosu::KbEscape
 				@win.close
 			else
