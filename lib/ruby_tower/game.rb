@@ -24,7 +24,7 @@ module RubyTower
 			init_platforms
 			@highest_floor_reached = 0
 
-			@leftWall = RTWall.new(@win, 0, 0, @wallWidth, 768, :cwall, "media/background/left.png")
+			@leftWall = RTWall.new(@win, 0, 0, @wallWidth, 768, :cwall, "#{MEDIA}/background/left.png")
 			@rightWall = RTWall.new(@win, 928, 0, @wallWidth, 768, :cwall, "media/background/right.png")
 
 			@win.space.add_collision_func(:cplayer, :cplatform) do |player_shape, platform_shape|
@@ -149,14 +149,14 @@ module RubyTower
 				if Gosu::button_down? Gosu::KbLeft
 					@player.goLeft
 				elsif @player.shape.body.v.x < -0.1
-					@player.impulse = 3.5
+					@player.impulse = 35
 					@player.stopLeft
 				end
 
 				if Gosu::button_down? Gosu::KbRight
 					@player.goRight
 				elsif @player.shape.body.v.x > 0.1
-					@player.impulse = 3.5
+					@player.impulse = 35
 					@player.stopRight
 				end
 

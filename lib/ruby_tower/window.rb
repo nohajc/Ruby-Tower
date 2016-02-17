@@ -25,9 +25,10 @@ module RubyTower
 		def initialize
 			super WIDTH, HEIGHT
 			self.caption = "Ruby Tower"
+			puts MEDIA
 
 			# Chipmunk properties
-			@dt = (1.0/60.0)
+			@dt = (1.0 / (6 * SUBSTEPS))
 			@space = CP::Space.new
 			@space.damping = 0.8
 			@space.gravity = vec(0, GRAVITY)

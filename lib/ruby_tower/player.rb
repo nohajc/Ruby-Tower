@@ -28,7 +28,7 @@ module RubyTower
 			@image = Gosu::Image.new("media/character/cube_cute.png")
 			@face = :right
 
-			@impulse = 3.5
+			@impulse = 35
 			init_sounds
 		end
 
@@ -49,26 +49,26 @@ module RubyTower
 
 		def goLeft
 			#puts "LEFT #{@impulse}"
-			@shape.body.apply_impulse(vec(-@impulse, 0), vec(0, 0))
-			@impulse += 0.004
+			@shape.body.apply_impulse(vec(-@impulse / SUBSTEPS, 0), vec(0, 0))
+			@impulse += 0.04
 			@face = :left
 		end
 
 		def goRight
 			#puts "RIGHT #{@impulse}"
-			@shape.body.apply_impulse(vec(@impulse, 0), vec(0, 0))
-			@impulse += 0.004
+			@shape.body.apply_impulse(vec(@impulse / SUBSTEPS, 0), vec(0, 0))
+			@impulse += 0.04
 			@face = :right
 		end
 
 		def stopLeft
 			#puts "STOP LEFT"
-			@shape.body.apply_impulse(vec(2.7, 0), vec(0, 0))
+			@shape.body.apply_impulse(vec(27 / SUBSTEPS, 0), vec(0, 0))
 		end
 
 		def stopRight
 			#puts "STOP RIGHT"
-			@shape.body.apply_impulse(vec(-2.7, 0), vec(0, 0))
+			@shape.body.apply_impulse(vec(-27 / SUBSTEPS, 0), vec(0, 0))
 		end
 
 		def draw
