@@ -22,6 +22,7 @@ module RubyTower
 			@max_seg_num = 12
 			@prng = Random.new
 			init_platforms
+			@highest_floor_reached = 0
 
 			@leftWall = RTWall.new(@win, 0, 0, @wallWidth, 768, :cwall, "media/background/left.png")
 			@rightWall = RTWall.new(@win, 928, 0, @wallWidth, 768, :cwall, "media/background/right.png")
@@ -29,7 +30,11 @@ module RubyTower
 			@win.space.add_collision_func(:cplayer, :cplatform) do |player_shape, platform_shape|
 				if player_shape.body.v.y > 0 && player_shape.body.p.y <= platform_shape.body.p.y - @player.height + 5
 					#puts "DOWNWARD COLLISION!"
-					@player.sound_impact.play if @player.onTheGround == false
+					if @player.onTheGround == false
+						@player.sound_impact.play
+						current_floor = (player_shape.body.p.y - 4 - HEIGHT + PLAT_HEIGHT).abs.to_i / FLOOR_HEIGHT
+						@highest_floor_reached = current_floor if current_floor > @highest_floor_reached
+					end
 					player_shape.body.p.y = platform_shape.body.p.y - @player.height
 					player_shape.body.reset_forces
 					player_shape.body.apply_impulse(vec(0, -player_shape.body.v.y * @player.weight), vec(0, 0))
@@ -76,6 +81,9 @@ module RubyTower
 					@platforms << wide_platform(idx, @wplatform_styles[style_idx])
 				else
 					@platforms << rand_platform(idx, @platform_styles[style_idx])
+				end
+				if idx % 10 == 0
+					@platforms[-1].label = idx.to_s
 				end
 			end
 			@last_floor_generated += b
@@ -183,7 +191,10 @@ module RubyTower
 
 			if @game_over
 				text_width = @font.text_width("GAME_OVER")
-				@font.draw("GAME OVER", WIDTH / 2 - text_width / 2, HEIGHT / 2 - @font.height, ZOrder::Overlay, 1.0, 1.0, 0xFFFFFFFF)
+				@font.draw("GAME OVER", (WIDTH - text_width) / 2, HEIGHT / 2 - @font.height, ZOrder::Overlay, 1.0, 1.0, 0xFFFFFFFF)
+				score_str = "score: #{@highest_floor_reached}"
+				text_width = @font.text_width(score_str)
+				@font.draw(score_str, (WIDTH - text_width) / 2, HEIGHT / 2, ZOrder::Overlay, 1.0, 1.0, 0xFFFFFFFF)
 			end
 		end
 	end
