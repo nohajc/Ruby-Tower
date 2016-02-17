@@ -25,7 +25,6 @@ module RubyTower
 		def initialize
 			super WIDTH, HEIGHT
 			self.caption = "Ruby Tower"
-			puts MEDIA
 
 			# Chipmunk properties
 			@dt = (1.0 / (6 * SUBSTEPS))

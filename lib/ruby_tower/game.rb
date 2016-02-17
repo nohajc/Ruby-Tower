@@ -180,6 +180,7 @@ module RubyTower
 					@game_over = true
 				end
 			end
+			puts "FPS = #{Gosu::fps}"
 		end
 
 		def draw

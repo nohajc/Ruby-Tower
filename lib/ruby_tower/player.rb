@@ -25,7 +25,7 @@ module RubyTower
 			@onTheGround = true
 			warp(vec(512 - @width / 2, HEIGHT - PLAT_HEIGHT - @height + 4))
 			#puts "t = #{@shape.bb.t}, b = #{@shape.bb.b}, l = #{@shape.bb.l}, r = #{@shape.bb.r}"
-			@image = Gosu::Image.new("media/character/cube_cute.png")
+			@image = Gosu::Image.new("#{MEDIA}/character/cube_cute.png")
 			@face = :right
 
 			@impulse = 35
@@ -33,7 +33,7 @@ module RubyTower
 		end
 
 		def init_sounds
-			@sound_impact = Gosu::Sample.new("media/character/impact.wav")
+			@sound_impact = Gosu::Sample.new("#{MEDIA}/character/impact.wav")
 		end
 
 		def warp(vect)
