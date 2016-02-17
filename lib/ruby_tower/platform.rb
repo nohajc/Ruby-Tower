@@ -35,9 +35,16 @@ module RubyTower
 			@pl_style.draw(@shape.body.p.x - 3, @shape.body.p.y - 4 + @win.camera_y, @width / PLAT_SEGM_WIDTH)
 			if @label != nil
 				text_width = @font.text_width(@label)
+				sx = @shape.body.p.x - 3 + @width / 2 - 20
+				sy = @shape.body.p.y - 4 + @win.camera_y + @height / 2 - @font.height / 2 - 40
 				x = @shape.body.p.x - 3 + @width / 2 - text_width / 2
-				y = @shape.body.p.y - 4 + @win.camera_y + @height / 2 - @font.height / 2 + 5
-				@font.draw(@label, x, y, ZOrder::Platforms, 1.0, 1.0, 0xFF000000)
+				y = sy + 6
+
+				@pl_style.sign.draw(sx, sy, ZOrder::Platforms)
+				[[1, 0], [-1, 0], [0, 1], [0, -1]].each do |i, j|
+					@font.draw(@label, x + i, y + j, ZOrder::Platforms, 1.0, 1.0, 0xFF000000)
+				end
+				@font.draw(@label, x, y, ZOrder::Platforms, 1.0, 1.0, 0xFFFFFFFF)
 			end
 		end
 	end

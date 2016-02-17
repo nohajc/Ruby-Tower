@@ -1,6 +1,12 @@
 module RubyTower
 
-class RTPlatformStyle
+	class RTPlatformStyle
+		@@sign = Gosu::Image.new( "media/platform/sign.png" )
+
+		def sign
+			@@sign
+		end
+
 		def initialize( color = "blue", is_wide = false )
 			@left = Gosu::Image.new( "media/platformstyles/left_corner_#{color}.png", :tileable => true )
 			@center = Gosu::Image.new( "media/platformstyles/center_#{color}.png",  :tileable => true ) 
@@ -29,5 +35,4 @@ class RTPlatformStyle
 			@right.draw(x + offset + size*@center.width, y, ZOrder::Platforms) if !@is_wide
 		end
 	end
-
 end
