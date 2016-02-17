@@ -19,6 +19,7 @@ module RubyTower
 			@player = RTPlayer.new(@win)
 			@platforms = []
 			@font = Gosu::Font.new(64)
+			@score_font = Gosu::Font.new(32)
 			@prng = Random.new
 
 			load_images
@@ -211,6 +212,12 @@ module RubyTower
 			@platforms.each{|p| p.draw}
 			@leftWall.draw
 			@rightWall.draw
+
+			# Draw score with outline
+			[[1, 0], [-1, 0], [0, 1], [0, -1]].each do |i, j|
+				@score_font.draw(@highest_floor_reached.to_s, 6 + i, 2 + j, ZOrder::Overlay, 1.0, 1.0, 0xFF000000)
+			end
+			@score_font.draw(@highest_floor_reached.to_s, 6, 2, ZOrder::Overlay, 1.0, 1.0, 0xFFFFFFFF)
 
 			if @game_over
 				text_width = @font.text_width("GAME_OVER")
