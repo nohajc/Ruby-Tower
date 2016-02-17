@@ -3,9 +3,9 @@ module RubyTower
 
 	class RTTabStyle
 		def initialize( color )
-			@left = Gosu::Image.new("media/tab_left_#{color}.png", :tileable => true)
-			@center = Gosu::Image.new("media/tab_center_#{color}.png", :tileable => true)
-			@right = Gosu::Image.new("media/tab_right_#{color}.png", :tileable => true)
+			@left = Gosu::Image.new("#{MEDIA}/tab_left_#{color}.png", :tileable => true)
+			@center = Gosu::Image.new("#{MEDIA}/tab_center_#{color}.png", :tileable => true)
+			@right = Gosu::Image.new("#{MEDIA}/tab_right_#{color}.png", :tileable => true)
 		end
 
 		def width(size)

@@ -57,7 +57,7 @@ module RubyTower
 				player_shape.body.v.x = -player_shape.body.v.x # bounce
 			end
 
-			@background = Gosu::Image.new("media/background/back.png")
+			@background = Gosu::Image.new("#{MEDIA}/background/back.png")
 		end
 
 		def wide_platform(floor_num, pl_style)
