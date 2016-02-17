@@ -20,7 +20,7 @@ module RubyTower
 
 	class RTWindow < Gosu::Window
 		include RubyTower
-		attr_accessor :space, :dt, :camera_y
+		attr_accessor :space, :dt, :camera_y, :contents
 
 		def initialize
 			super WIDTH, HEIGHT

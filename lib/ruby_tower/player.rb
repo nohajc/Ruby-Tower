@@ -46,7 +46,7 @@ module RubyTower
 		end
 
 		def jump
-			puts "JUMP"
+			#puts "JUMP"
 			@onTheGround = false
 			@shape.body.apply_impulse(vec(0, -1200 - 10 * @shape.body.v.x.abs), vec(0, 0))
 			@shape.body.apply_force(vec(0, GRAVITY * 10), vec(0, 0))

@@ -159,8 +159,6 @@ module RubyTower
 			end
 		end
 
-		def 
-
 		def keyboardControl(id)
 			case id
 			when Gosu::KbRight 

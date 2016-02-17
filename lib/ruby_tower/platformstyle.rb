@@ -14,7 +14,7 @@ module RubyTower
 			@sign = Gosu::Image.new( "#{MEDIA}/platform/sign.png" )
 			@is_wide = is_wide
 
-			puts "Loaded PlatformStyle: \n\t #{color} of size #{@left.width}x#{@left.height}\n\t #{color} of size #{@center.width}x#{@center.height}\n\t #{color} of size #{@right.width}x#{@right.height}"
+			#puts "Loaded PlatformStyle: \n\t #{color} of size #{@left.width}x#{@left.height}\n\t #{color} of size #{@center.width}x#{@center.height}\n\t #{color} of size #{@right.width}x#{@right.height}"
 		end
 
 		# Draws platform starting at x, y 

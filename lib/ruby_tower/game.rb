@@ -71,7 +71,7 @@ module RubyTower
 			end
 
 			@win.space.add_collision_func(:cplayer, :cwall) do |player_shape, wall_shape|
-				puts "WALL COLLISION!"
+				#puts "WALL COLLISION!"
 				if player_shape.body.v.x > 0 # right wall
 					player_shape.body.p.x = wall_shape.body.p.x - @player.width
 				else # left wall
@@ -141,7 +141,13 @@ module RubyTower
 
 		def button_down(id)
 			if @game_over
-				@win.switchTo(:menu) if id == Gosu::KbReturn || id == Gosu::KbEscape
+				case id
+				when Gosu::KbReturn
+					@win.contents[:leaderboard].addScore(@highest_floor_reached)
+					@win.switchTo(:leaderboard)
+				when Gosu::KbEscape
+					@win.switchTo(:menu)
+				end
 			else
 				case id
 				when Gosu::KbSpace, Gosu::KbUp

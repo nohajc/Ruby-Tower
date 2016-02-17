@@ -19,7 +19,7 @@ module RubyTower
 			@win.space.add_body(body)
 			@win.space.add_shape(@shape)
 			warp(vec(x + 3, y + 4))
-			puts "t = #{@shape.bb.t}, b = #{@shape.bb.b}, l = #{@shape.bb.l}, r = #{@shape.bb.r}"
+			#puts "t = #{@shape.bb.t}, b = #{@shape.bb.b}, l = #{@shape.bb.l}, r = #{@shape.bb.r}"
 			@shape.body.apply_force(vec(0, -GRAVITY * @weight), vec(0, 0))
 
 			@label = nil
