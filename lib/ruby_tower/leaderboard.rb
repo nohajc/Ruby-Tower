@@ -66,9 +66,9 @@ module RubyTower
 			updateRange
 			@beep = Gosu::Sample.new("media/button-46.wav")
 
-			@left = Gosu::Image.new("media/left2.png")
-			@right = Gosu::Image.new("media/right2.png")
-			@back = Gosu::Image.new("media/back.png")
+			@left = Gosu::Image.new("media/background/left.png")
+			@right = Gosu::Image.new("media/background/right.png")
+			@back = Gosu::Image.new("media/background/back.png")
 
 			@active = 0
 			@board[@active].setActive

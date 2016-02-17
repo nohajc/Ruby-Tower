@@ -58,13 +58,12 @@ module RubyTower
 			add_item(WIDTH/2 - @tab_width/2, 160,  "Leaderboard")
 			add_item(WIDTH/2 - @tab_width/2, 220,  "Quit")
 
-			@left = Gosu::Image.new("media/left2.png")
-			@right = Gosu::Image.new("media/right2.png")
-			@back = Gosu::Image.new("media/back.png")
+			@left = Gosu::Image.new("media/background/left.png")
+			@right = Gosu::Image.new("media/background/right.png")
+			@back = Gosu::Image.new("media/background/back.png")
 
 			@beep = Gosu::Sample.new("media/button-46.wav")
 
-			@sign = Gosu::Image.new("media/sign.png")
 			@font = Gosu::Font.new(18)
 			@color_text = Gosu::Color.new(0xff_000000)
 			@num = 0
