@@ -14,19 +14,40 @@ module RubyTower
 		def initialize(win)
 			@win = win
 			@wallWidth = 96
-			@player = RTPlayer.new(@win)
-			@game_over = false
-			@font = Gosu::Font.new(64)
-
 			@min_seg_num = 4
 			@max_seg_num = 12
+			@player = RTPlayer.new(@win)
+			@platforms = []
+			@font = Gosu::Font.new(64)
 			@prng = Random.new
+
+			load_images
+			set_collision_callbacks
+
+			@game_over = false
+		end
+
+		def reset
+			@platforms.each do |p|
+				@win.space.remove_body(p.shape.body)
+				@win.space.remove_shape(p.shape)
+			end
+			@platforms.clear
+			@win.camera_y = 0
+			@player.reset_position
+
+			@game_over = false
 			init_platforms
 			@highest_floor_reached = 0
+		end
 
+		def load_images
 			@leftWall = RTWall.new(@win, 0, 0, @wallWidth, 768, :cwall, "#{MEDIA}/background/left.png")
 			@rightWall = RTWall.new(@win, 928, 0, @wallWidth, 768, :cwall, "#{MEDIA}/background/right.png")
+			@background = Gosu::Image.new("#{MEDIA}/background/back.png")
+		end
 
+		def set_collision_callbacks
 			@win.space.add_collision_func(:cplayer, :cplatform) do |player_shape, platform_shape|
 				if player_shape.body.v.y > 0 && player_shape.body.p.y <= platform_shape.body.p.y - @player.height + 5
 					#puts "DOWNWARD COLLISION!"
@@ -41,6 +62,7 @@ module RubyTower
 					player_shape.body.apply_force(vec(0, -GRAVITY * 10), vec(0, 0))
 					@player.onTheGround = true
 
+					# rejump
 					if Gosu::button_down?(Gosu::KbSpace) || Gosu::button_down?(Gosu::KbUp)
 						@player.jump
 					end
@@ -56,8 +78,6 @@ module RubyTower
 				end
 				player_shape.body.v.x = -player_shape.body.v.x # bounce
 			end
-
-			@background = Gosu::Image.new("#{MEDIA}/background/back.png")
 		end
 
 		def wide_platform(floor_num, pl_style)
@@ -111,7 +131,6 @@ module RubyTower
 				RTPlatformStyle.new("purple", true),
 				RTPlatformStyle.new("pink", true)
 			]
-			@platforms = []
 			@platforms << wide_platform(0, @wplatform_styles[0])
 			#@platforms << RTPlatform.new(@win, 300, HEIGHT - 128, 128, 24, :cplatform)
 			#@platforms << RTPlatform.new(@win, 500, HEIGHT - 308, 240, 24, :cplatform)
@@ -120,18 +139,18 @@ module RubyTower
 		end
 
 		def button_down(id)
-			@win.switchTo(:leaderboard) if id == Gosu::KbS
+			@win.switchTo(:menu) if @game_over
 			case id
 			when Gosu::KbSpace, Gosu::KbUp
 				@player.jump if @player.onTheGround
 			when Gosu::KbEscape
-				@win.close
+				@win.switchTo(:menu)
 			end
 		end
 
 		def update_platforms
 			platforms_to_remove = 0
-			@platforms.each_with_index do |p, i|
+			@platforms.each do |p|
 				if p.shape.body.p.y + @win.camera_y > HEIGHT
 					@win.space.remove_body(p.shape.body)
 					@win.space.remove_shape(p.shape)
@@ -180,7 +199,7 @@ module RubyTower
 					@game_over = true
 				end
 			end
-			puts "FPS = #{Gosu::fps}"
+			#puts "FPS = #{Gosu::fps}"
 		end
 
 		def draw

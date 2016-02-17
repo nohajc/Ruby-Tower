@@ -12,7 +12,7 @@ module RubyTower
 	PLAT_SEGM_WIDTH = 32
 	PLAT_HEIGHT = 24
 	FLOOR_HEIGHT = 100
-	FLOOR_STYLE_CHANGE_RATE = 50
+	FLOOR_STYLE_CHANGE_RATE = 20
 
 	module ZOrder
 		Background, Platforms, Player, Overlay = *0..3
@@ -44,6 +44,9 @@ module RubyTower
 		end
 
 		def switchTo(content)
+			if content == :game
+				@contents[:game].reset
+			end
 			@current = @contents[content]
 		end
 

@@ -22,14 +22,19 @@ module RubyTower
 			@win.space.add_body(body)
 			@win.space.add_shape(@shape)
 			#@image = Gosu::Image.new(win, Circle.new(36), false)
-			@onTheGround = true
-			warp(vec(512 - @width / 2, HEIGHT - PLAT_HEIGHT - @height + 4))
 			#puts "t = #{@shape.bb.t}, b = #{@shape.bb.b}, l = #{@shape.bb.l}, r = #{@shape.bb.r}"
 			@image = Gosu::Image.new("#{MEDIA}/character/cube_cute.png")
-			@face = :right
-
-			@impulse = 35
+			
 			init_sounds
+			reset_position
+		end
+
+		def reset_position
+			@onTheGround = true
+			warp(vec(512 - @width / 2, HEIGHT - PLAT_HEIGHT - @height + 4))
+			@shape.body.v = vec(0, 0)
+			@face = :right
+			@impulse = 35
 		end
 
 		def init_sounds

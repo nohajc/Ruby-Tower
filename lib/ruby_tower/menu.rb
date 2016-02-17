@@ -96,8 +96,6 @@ module RubyTower
 
 		def button_down(id)
 			case id
-			when Gosu::KbS 
-				@win.switchTo(:game)
 			when Gosu::KbA 
 				@rot = !@rot
 			when Gosu::KbQ 
@@ -112,7 +110,7 @@ module RubyTower
 				@items[@active].unsetActive
 				@active = mod(@active + 1)
 				@items[@active].setActive
-			when Gosu::KbReturn
+			when Gosu::KbReturn, Gosu::KbSpace
 				if @active == 2
 					@win.close
 				else

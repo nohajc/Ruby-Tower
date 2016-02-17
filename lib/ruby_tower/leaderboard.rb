@@ -97,8 +97,6 @@ module RubyTower
 
 		def button_down(id)
 			case id
-			when Gosu::KbBackspace
-				@win.switchTo(:menu)
 			when Gosu::KbDown 
 				@beep.play
 				@origin += 1 unless @num_records - 1 - @origin < @max_records 
@@ -116,7 +114,7 @@ module RubyTower
 				@active = @active - 1 unless @active == 0
 				@board[@active].setActive
 			when Gosu::KbEscape
-				@win.close
+				@win.switchTo(:menu)
 			else
 				
 			end
