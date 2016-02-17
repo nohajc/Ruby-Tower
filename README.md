@@ -37,7 +37,7 @@ On OS X, follow instructions on https://github.com/gosu/gosu/wiki/Getting-Starte
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ruby_tower.
+Bug reports and pull requests are welcome on GitHub at https://github.com/nohajc/Ruby-Tower.
 
 
 ## License
