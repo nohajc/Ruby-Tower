@@ -20,6 +20,8 @@ Or install it yourself as:
 
 ## Usage
 
+Run *bin/run* in the repository or *ruby\_tower* if you have installed the gem.
+
 Use arrow keys and Return/Enter to navigate menu.
 
 #### Player controls
