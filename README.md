@@ -22,10 +22,10 @@ Or install it yourself as:
 
 Use arrow keys and Return/Enter to navigate menu.
 
-### Player controls:
-Left - move left
-Right - move right
-Space/Up - jump!
+#### Player controls:
+* Left - move left
+* Right - move right
+* Space/Up - jump!
 
 ## Development
 
