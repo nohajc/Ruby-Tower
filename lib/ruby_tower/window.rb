@@ -40,7 +40,7 @@ module RubyTower
 				:leaderboard => RTLeaderBoard.new(self)
 			}
 
-			@current = @contents[:game]
+			@current = @contents[:menu]
 		end
 
 		def switchTo(content)
