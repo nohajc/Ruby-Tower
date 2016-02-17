@@ -231,6 +231,9 @@ module RubyTower
 				score_str = "score: #{@highest_floor_reached}"
 				text_width = @font.text_width(score_str)
 				@font.draw(score_str, (WIDTH - text_width) / 2, HEIGHT / 2, ZOrder::Overlay, 1.0, 1.0, 0xFFFFFFFF)
+				save_str = "Enter: save, Esc: discard"
+				text_width = @score_font.text_width(save_str)
+				@score_font.draw(save_str, (WIDTH - text_width) / 2, HEIGHT / 2 + @font.height, ZOrder::Overlay, 1.0, 1.0, 0xFFFFFFFF)
 			end
 		end
 	end
