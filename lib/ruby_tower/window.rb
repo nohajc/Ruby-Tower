@@ -14,7 +14,7 @@ module RubyTower
 	FLOOR_HEIGHT = 100
 
 	module ZOrder
-		Background, Platforms, Player = *0..2
+		Background, Platforms, Player, Overlay = *0..3
 	end
 
 	class RTWindow < Gosu::Window

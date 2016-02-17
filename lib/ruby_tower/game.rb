@@ -15,6 +15,8 @@ module RubyTower
 			@win = win
 			@wallWidth = 96
 			@player = RTPlayer.new(@win)
+			@game_over = false
+			@font = Gosu::Font.new(64)
 
 			@min_seg_num = 4
 			@max_seg_num = 12
@@ -107,12 +109,16 @@ module RubyTower
 				@win.space.step(@win.dt)
 				@player.shape.body.reset_forces
 
-				#puts "player y = #{@player.shape.body.p.y}"
+				#puts "player y = #{@player.shape.body.p.y + @win.camera_y}"
 				camera_y = HEIGHT / 2 - @player.shape.body.p.y
 
 				@win.camera_y = camera_y if camera_y > @win.camera_y
 				@leftWall.update
 				@rightWall.update
+
+				if @player.shape.body.p.y + @win.camera_y > HEIGHT
+					@game_over = true
+				end
 			end
 		end
 
@@ -122,6 +128,11 @@ module RubyTower
 			@platforms.each{|p| p.draw}
 			@leftWall.draw
 			@rightWall.draw
+
+			if @game_over
+				text_width = @font.text_width("GAME_OVER")
+				@font.draw("GAME OVER", WIDTH / 2 - text_width / 2, HEIGHT / 2 - @font.height, ZOrder::Overlay, 1.0, 1.0, 0xFFFFFFFF)
+			end
 		end
 	end
 end
