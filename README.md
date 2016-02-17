@@ -1,8 +1,6 @@
 # RubyTower
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ruby_tower`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This is a clone of the popular PC game Icy Tower written in Ruby, using Gosu framework and Chipmunk physics engine.
 
 ## Installation
 
@@ -22,7 +20,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Use arrow keys and Return/Enter to navigate menu.
+
+### Player controls:
+Left - move left
+Right - move right
+Space/Up - jump!
 
 ## Development
 
