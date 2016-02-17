@@ -127,6 +127,7 @@ module RubyTower
 			@num_records +=1
 			@text = ""
 			@new = pos
+			@win.text_input = Gosu::TextInput.new
 		end
 
 		def updateRange
@@ -158,10 +159,12 @@ module RubyTower
 			end
 		end
 
+		def 
+
 		def keyboardControl(id)
 			case id
 			when Gosu::KbRight 
-				@win.text_input = Gosu::TextInput.new( )
+				
 				addScore(40)
 			when Gosu::KbDown 
 				@beep.play
@@ -186,6 +189,7 @@ module RubyTower
 					@new = -2
 					@text = ""
 					@win.text_input = nil
+					saveLeaderBoard
 				end
 			else
 				if @win.text_input != nil
