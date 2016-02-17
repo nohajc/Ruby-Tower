@@ -64,11 +64,11 @@ module RubyTower
 			@origin = 0
 			@max_records = 10
 			updateRange
-			@beep = Gosu::Sample.new("media/button-46.wav")
+			@beep = Gosu::Sample.new("#{MEDIA}/button-46.wav")
 
-			@left = Gosu::Image.new("media/background/left.png")
-			@right = Gosu::Image.new("media/background/right.png")
-			@back = Gosu::Image.new("media/background/back.png")
+			@left = Gosu::Image.new("#{MEDIA}/background/left.png")
+			@right = Gosu::Image.new("#{MEDIA}/background/right.png")
+			@back = Gosu::Image.new("#{MEDIA}/background/back.png")
 
 			@active = 0
 			@board[@active].setActive
@@ -84,7 +84,7 @@ module RubyTower
 		end
 
 		def loadLeaderBoard
-			file = File.open("saves/save1.rt", "r+")
+			file = File.open("#{SAVES}/save1.rt", "r+")
 
 			file.each_line do |line|
 				splitted = line.split(';')

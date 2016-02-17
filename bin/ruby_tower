@@ -4,6 +4,7 @@ require "ruby_tower/window"
 
 module RubyTower
 	MEDIA = File.expand_path(File.join(File.dirname(File.expand_path(__FILE__)), "../media"))
+	SAVES = File.expand_path(File.join(File.dirname(File.expand_path(__FILE__)), "../saves"))
 end
 
 win = RubyTower::RTWindow.new

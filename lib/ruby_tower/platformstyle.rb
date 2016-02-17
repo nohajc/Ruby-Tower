@@ -8,10 +8,10 @@ module RubyTower
 		end
 
 		def initialize( color = "blue", is_wide = false )
-			@left = Gosu::Image.new( "media/platformstyles/left_corner_#{color}.png", :tileable => true )
-			@center = Gosu::Image.new( "media/platformstyles/center_#{color}.png",  :tileable => true ) 
-			@right = Gosu::Image.new( "media/platformstyles/right_corner_#{color}.png", :tileable => true )
-			@sign = Gosu::Image.new( "media/platform/sign.png" )
+			@left = Gosu::Image.new( "#{MEDIA}/platformstyles/left_corner_#{color}.png", :tileable => true )
+			@center = Gosu::Image.new( "#{MEDIA}/platformstyles/center_#{color}.png",  :tileable => true ) 
+			@right = Gosu::Image.new( "#{MEDIA}/platformstyles/right_corner_#{color}.png", :tileable => true )
+			@sign = Gosu::Image.new( "#{MEDIA}/platform/sign.png" )
 			@is_wide = is_wide
 
 			puts "Loaded PlatformStyle: \n\t #{color} of size #{@left.width}x#{@left.height}\n\t #{color} of size #{@center.width}x#{@center.height}\n\t #{color} of size #{@right.width}x#{@right.height}"

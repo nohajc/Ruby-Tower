@@ -25,7 +25,7 @@ module RubyTower
 			@highest_floor_reached = 0
 
 			@leftWall = RTWall.new(@win, 0, 0, @wallWidth, 768, :cwall, "#{MEDIA}/background/left.png")
-			@rightWall = RTWall.new(@win, 928, 0, @wallWidth, 768, :cwall, "media/background/right.png")
+			@rightWall = RTWall.new(@win, 928, 0, @wallWidth, 768, :cwall, "#{MEDIA}/background/right.png")
 
 			@win.space.add_collision_func(:cplayer, :cplatform) do |player_shape, platform_shape|
 				if player_shape.body.v.y > 0 && player_shape.body.p.y <= platform_shape.body.p.y - @player.height + 5
