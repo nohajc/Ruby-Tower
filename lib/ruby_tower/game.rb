@@ -139,12 +139,15 @@ module RubyTower
 		end
 
 		def button_down(id)
-			@win.switchTo(:menu) if @game_over
-			case id
-			when Gosu::KbSpace, Gosu::KbUp
-				@player.jump if @player.onTheGround
-			when Gosu::KbEscape
-				@win.switchTo(:menu)
+			if @game_over
+				@win.switchTo(:menu) if id == Gosu::KbReturn || id == Gosu::KbEscape
+			else
+				case id
+				when Gosu::KbSpace, Gosu::KbUp
+					@player.jump if @player.onTheGround
+				when Gosu::KbEscape
+					@win.switchTo(:menu)
+				end
 			end
 		end
 
