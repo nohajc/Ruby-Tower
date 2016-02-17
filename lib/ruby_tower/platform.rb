@@ -1,6 +1,7 @@
 module RubyTower
 	class RTPlatform
 		include RubyTower
+		attr_accessor :shape
 
 		def initialize(win, x, y, w, h, ctype, pl_style)
 			@win = win

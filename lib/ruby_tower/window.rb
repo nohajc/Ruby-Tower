@@ -12,6 +12,7 @@ module RubyTower
 	PLAT_SEGM_WIDTH = 32
 	PLAT_HEIGHT = 24
 	FLOOR_HEIGHT = 100
+	FLOOR_STYLE_CHANGE_RATE = 50
 
 	module ZOrder
 		Background, Platforms, Player, Overlay = *0..3

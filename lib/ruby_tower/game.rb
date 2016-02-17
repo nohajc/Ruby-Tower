@@ -55,24 +55,60 @@ module RubyTower
 			@background = Gosu::Image.new("media/background/back.png")
 		end
 
+		def wide_platform(floor_num, pl_style)
+			y = HEIGHT - PLAT_HEIGHT - floor_num * FLOOR_HEIGHT
+			RTPlatform.new(@win, @wallWidth, y, WIDTH - 2 * @wallWidth, PLAT_HEIGHT, :cplatform, pl_style)
+		end
+
 		def rand_platform(floor_num, pl_style)
 			x = @prng.rand((@wallWidth / PLAT_SEGM_WIDTH)..((WIDTH - @wallWidth) / PLAT_SEGM_WIDTH - @min_seg_num)) * PLAT_SEGM_WIDTH
-			y = HEIGHT - floor_num * FLOOR_HEIGHT
+			y = HEIGHT - PLAT_HEIGHT - floor_num * FLOOR_HEIGHT
 			w = [@prng.rand(@min_seg_num..@max_seg_num) * PLAT_SEGM_WIDTH, (WIDTH - @wallWidth - x)].min
 			h = PLAT_HEIGHT
 			RTPlatform.new(@win, x, y, w, h, :cplatform, pl_style)
 		end
 
+		def rand_platform_range(a, b)
+			(a..b).each do |i|
+				idx = @last_floor_generated + i
+				style_idx = (idx / FLOOR_STYLE_CHANGE_RATE) % @platform_styles.length
+				if idx % (FLOOR_STYLE_CHANGE_RATE / 2) == 0
+					@platforms << wide_platform(idx, @wplatform_styles[style_idx])
+				else
+					@platforms << rand_platform(idx, @platform_styles[style_idx])
+				end
+			end
+			@last_floor_generated += b
+		end
+
 		def init_platforms
-			@platform_style = RTPlatformStyle.new
-			@wplatform_style = RTPlatformStyle.new("blue", true)
+			@platform_styles = [
+				RTPlatformStyle.new("grey"),
+				RTPlatformStyle.new("blue"),
+				RTPlatformStyle.new("green"),
+				RTPlatformStyle.new("lime"),
+				RTPlatformStyle.new("yellow"),
+				RTPlatformStyle.new("red"),
+				RTPlatformStyle.new("purple"),
+				RTPlatformStyle.new("pink")
+			]
+
+			@wplatform_styles = [
+				RTPlatformStyle.new("grey", true),
+				RTPlatformStyle.new("blue", true),
+				RTPlatformStyle.new("green", true),
+				RTPlatformStyle.new("lime", true),
+				RTPlatformStyle.new("yellow", true),
+				RTPlatformStyle.new("red", true),
+				RTPlatformStyle.new("purple", true),
+				RTPlatformStyle.new("pink", true)
+			]
 			@platforms = []
-			@platforms << RTPlatform.new(@win, @wallWidth, HEIGHT - PLAT_HEIGHT, WIDTH - 2 * @wallWidth, PLAT_HEIGHT, :cplatform, @wplatform_style)
+			@platforms << wide_platform(0, @wplatform_styles[0])
 			#@platforms << RTPlatform.new(@win, 300, HEIGHT - 128, 128, 24, :cplatform)
 			#@platforms << RTPlatform.new(@win, 500, HEIGHT - 308, 240, 24, :cplatform)
-			(1..500).each do |i|
-				@platforms << rand_platform(i, @platform_style)
-			end
+			@last_floor_generated = 0
+			rand_platform_range(1, 7)
 		end
 
 		def button_down(id)
@@ -83,6 +119,20 @@ module RubyTower
 			when Gosu::KbEscape
 				@win.close
 			end
+		end
+
+		def update_platforms
+			platforms_to_remove = 0
+			@platforms.each_with_index do |p, i|
+				if p.shape.body.p.y + @win.camera_y > HEIGHT
+					@win.space.remove_body(p.shape.body)
+					@win.space.remove_shape(p.shape)
+					platforms_to_remove += 1
+				end
+			end
+
+			@platforms.shift(platforms_to_remove)
+			rand_platform_range(1, platforms_to_remove)
 		end
 
 		def update
@@ -115,6 +165,8 @@ module RubyTower
 				@win.camera_y = camera_y if camera_y > @win.camera_y
 				@leftWall.update
 				@rightWall.update
+
+				update_platforms
 
 				if @player.shape.body.p.y + @win.camera_y > HEIGHT
 					@game_over = true
