@@ -26,6 +26,7 @@ module RubyTower
 			set_collision_callbacks
 
 			@game_over = false
+			@highest = false
 		end
 
 		def reset
@@ -38,6 +39,7 @@ module RubyTower
 			@player.reset_position
 
 			@game_over = false
+			@highest = false
 			init_platforms
 			@highest_floor_reached = 0
 		end
@@ -141,12 +143,20 @@ module RubyTower
 
 		def button_down(id)
 			if @game_over
-				case id
-				when Gosu::KbReturn
-					@win.contents[:leaderboard].addScore(@highest_floor_reached)
-					@win.switchTo(:leaderboard)
-				when Gosu::KbEscape
-					@win.switchTo(:menu)
+
+				if @highest
+					case id
+					when Gosu::KbReturn
+						@win.contents[:leaderboard].addScore(@highest_floor_reached)
+						@win.switchTo(:leaderboard)
+					when Gosu::KbEscape
+						@win.switchTo(:menu)
+					end
+				else
+					case 
+					when Gosu::KbEscape
+						@win.switchTo(:menu)	
+					end
 				end
 			else
 				case id
@@ -207,6 +217,9 @@ module RubyTower
 
 				if @player.shape.body.p.y + @win.camera_y > HEIGHT
 					@game_over = true
+					if @highest_floor_reached > @win.contents[:leaderboard].highestScore
+						@highest = true
+					end
 				end
 			end
 			#puts "FPS = #{Gosu::fps}"
@@ -231,9 +244,11 @@ module RubyTower
 				score_str = "score: #{@highest_floor_reached}"
 				text_width = @font.text_width(score_str)
 				@font.draw(score_str, (WIDTH - text_width) / 2, HEIGHT / 2, ZOrder::Overlay, 1.0, 1.0, 0xFFFFFFFF)
-				save_str = "Enter: save, Esc: discard"
-				text_width = @score_font.text_width(save_str)
-				@score_font.draw(save_str, (WIDTH - text_width) / 2, HEIGHT / 2 + @font.height, ZOrder::Overlay, 1.0, 1.0, 0xFFFFFFFF)
+				if @highest
+					save_str = "Enter: save, Esc: discard"
+					text_width = @score_font.text_width(save_str)
+					@score_font.draw(save_str, (WIDTH - text_width) / 2, HEIGHT / 2 + @font.height, ZOrder::Overlay, 1.0, 1.0, 0xFFFFFFFF)
+				end
 			end
 		end
 	end

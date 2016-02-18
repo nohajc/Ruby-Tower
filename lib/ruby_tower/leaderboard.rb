@@ -4,6 +4,7 @@ module RubyTower
 
 	class RTRecord
 
+		attr_reader :score
 		include Comparable
 		include Enumerable
 
@@ -100,6 +101,7 @@ module RubyTower
 			@win.text_input = nil
 
 			@beep = Gosu::Sample.new("#{MEDIA}/button-46.wav")
+			@beep_update = Gosu::Sample.new("#{MEDIA}/character/impact.wav")
 
 			@left = Gosu::Image.new("#{MEDIA}/background/left.png")
 			@right = Gosu::Image.new("#{MEDIA}/background/right.png")
@@ -116,6 +118,10 @@ module RubyTower
 
 		end
 
+		def highestScore
+			@board[0].score
+		end
+
 		def addScore( score )
 			pos = findPos( score )
 			record = RTRecord.new("", score)
@@ -123,8 +129,10 @@ module RubyTower
 			@board[@active].unsetActive
 			@board.insert(pos, record)
 			@board[pos].setActive
+			@active = pos
 
-			@num_records +=1
+			@num_records += 1
+			updateRange
 			@text = ""
 			@new = pos
 			@win.text_input = Gosu::TextInput.new
@@ -161,9 +169,6 @@ module RubyTower
 
 		def keyboardControl(id)
 			case id
-			when Gosu::KbRight 
-				
-				addScore(40)
 			when Gosu::KbDown 
 				@beep.play
 				@origin += 1 unless @num_records - 1 - @origin < @max_records 
@@ -188,6 +193,7 @@ module RubyTower
 					@text = ""
 					@win.text_input = nil
 					saveLeaderBoard
+					@beep_update.play
 				end
 			else
 				if @win.text_input != nil
