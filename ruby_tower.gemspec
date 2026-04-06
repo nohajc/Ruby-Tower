@@ -27,10 +27,10 @@ Gem::Specification.new do |spec|
   spec.executables   = "ruby_tower"
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.11"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "bundler", ">= 2.0"
+  spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
 
-  spec.add_runtime_dependency "gosu", "~> 0.10.5"
+  spec.add_runtime_dependency "gosu", "~> 1.4"
   spec.add_runtime_dependency "chipmunk", "~> 6.1"
 end
